@@ -1,40 +1,43 @@
-"use client"
+import { Link } from "react-router-dom"
+import { useAuth } from "../../context/AuthContext"
 
-import { LogIn, LogOut } from "lucide-react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
 
-export function Header() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    useEffect(() => {
-        const hasToken = document.cookie.split("; ").some(c => c.startsWith("token="));
-        setIsLoggedIn(hasToken);
-    }, []);
+export default function Header() {
+    const { logout } = useAuth()
 
     return (
-        <header className="fixed top-0 left-0 w-full bg-white shadow-md p-4 mb-4 flex items-center justify-between z-50">
-            <Link href="/" className="text-2xl font-bold text-amber-500">AedesControl</Link>
+        <header className="bg-amber-500 text-white shadow-md">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between h-16 items-center">
+                    <div className="flex-shrink-0 text-2xl font-bold tracking-wide">
+                        AedesControl
+                    </div>
 
-            <div className="flex items-center gap-6 text-gray-700 font-medium">
-                <Link href="/#sobre" className="hover:text-amber-500 transition">Sobre</Link>
-                <Link href="/#contato" className="hover:text-amber-500 transition">Contato</Link>
-            </div>
-
-            <div className="flex items-center gap-4">
-                {isLoggedIn ? (
-                    <button
-                        onClick={() => setIsLoggedIn(false)}
-                        title="Sair"
-                    >
-                        <LogOut className="w-6 h-6 text-gray-700 hover:text-red-500 transition cursor-pointer" />
-                    </button>
-                ) : (
-                    <Link href={"/login"} title="Entrar">
-                        <LogIn className="w-6 h-6 text-gray-700 hover:text-amber-500 transition cursor-pointer" />
-                    </Link>
-                )}
+                    <nav className="hidden md:flex space-x-6 items-center">
+                        <Link
+                            to="/dashboard"
+                            className="hover:text-gray-200 transition-colors"
+                        >
+                            Dashboard
+                        </Link>
+                        <Link
+                            to="/profile"
+                            className="hover:text-gray-200 transition-colors"
+                        >
+                            Perfil
+                        </Link>
+                        <button
+                            onClick={logout}
+                            className="bg-white text-amber-500 px-3 py-1 rounded-lg font-semibold hover:bg-gray-100 transition"
+                        >
+                            Sair
+                        </button>
+                    </nav>
+                    
+                    <div className="md:hidden">
+                    </div>
+                </div>
             </div>
         </header>
-    );
+    )
 }

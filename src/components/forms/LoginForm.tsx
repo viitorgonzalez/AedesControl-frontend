@@ -16,23 +16,19 @@ export default function LoginForm() {
         e.preventDefault()
         setError("")
 
-        if (!email || !password) {
-            setError("Preencha todos os campos")
-            return
-        }
+        if (!email || !password) 
+            return setError("Preencha todos os campos")
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        if (!emailRegex.test(email)) {
-            setError("Email inválido")
-            return
-        }
+        if (!emailRegex.test(email))
+            return setError("Email inválido")
 
         setLoading(true)
         try {
             await login(email, password)
             navigate("/dashboard")
         } catch (err: any) {
-            setError("Erro de conexão com o servidor")
+            setError("Falha ao entrar. Verifique suas credenciais.")
         } finally {
             setLoading(false)
         }

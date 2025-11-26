@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom"
 import { useAuth } from "../../context/AuthContext"
 
-
 export default function Header() {
-    const { logout } = useAuth()
+    const { loggedIn, logout } = useAuth()
 
     return (
         <header className="bg-amber-500 text-white shadow-md">
@@ -26,16 +25,23 @@ export default function Header() {
                         >
                             Perfil
                         </Link>
-                        <button
-                            onClick={logout}
-                            className="bg-white text-amber-500 px-3 py-1 rounded-lg font-semibold hover:bg-gray-100 transition"
-                        >
-                            Sair
-                        </button>
+
+                        {loggedIn ? (
+                            <button
+                                onClick={logout}
+                                className="bg-white text-amber-500 px-3 py-1 rounded-lg font-semibold hover:bg-gray-100 transition"
+                            >
+                                Sair
+                            </button>
+                        ) : (
+                            <Link
+                                to="/login"
+                                className="bg-white text-amber-500 px-3 py-1 rounded-lg font-semibold hover:bg-gray-100 transition"
+                            >
+                                Entrar
+                            </Link>
+                        )}
                     </nav>
-                    
-                    <div className="md:hidden">
-                    </div>
                 </div>
             </div>
         </header>
